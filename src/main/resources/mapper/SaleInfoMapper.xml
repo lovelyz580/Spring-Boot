@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.dao.SaleInfoMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.entity.SaleInfo">
+    <id column="sale_id" jdbcType="INTEGER" property="saleId" />
+    <result column="sale_name" jdbcType="CHAR" property="saleName" />
+    <result column="sale_password" jdbcType="CHAR" property="salePassword" />
+    <result column="sale_phone" jdbcType="INTEGER" property="salePhone" />
+    <result column="sale_addr" jdbcType="CHAR" property="saleAddr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sale_id, sale_name, sale_password, sale_phone, sale_addr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sale_info
+    where sale_id = #{saleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sale_info
+    where sale_id = #{saleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.entity.SaleInfo">
+    insert into sale_info (sale_id, sale_name, sale_password, 
+      sale_phone, sale_addr)
+    values (#{saleId,jdbcType=INTEGER}, #{saleName,jdbcType=CHAR}, #{salePassword,jdbcType=CHAR}, 
+      #{salePhone,jdbcType=INTEGER}, #{saleAddr,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.entity.SaleInfo">
+    insert into sale_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="saleId != null">
+        sale_id,
+      </if>
+      <if test="saleName != null">
+        sale_name,
+      </if>
+      <if test="salePassword != null">
+        sale_password,
+      </if>
+      <if test="salePhone != null">
+        sale_phone,
+      </if>
+      <if test="saleAddr != null">
+        sale_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="saleId != null">
+        #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="saleName != null">
+        #{saleName,jdbcType=CHAR},
+      </if>
+      <if test="salePassword != null">
+        #{salePassword,jdbcType=CHAR},
+      </if>
+      <if test="salePhone != null">
+        #{salePhone,jdbcType=INTEGER},
+      </if>
+      <if test="saleAddr != null">
+        #{saleAddr,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.entity.SaleInfo">
+    update sale_info
+    <set>
+      <if test="saleName != null">
+        sale_name = #{saleName,jdbcType=CHAR},
+      </if>
+      <if test="salePassword != null">
+        sale_password = #{salePassword,jdbcType=CHAR},
+      </if>
+      <if test="salePhone != null">
+        sale_phone = #{salePhone,jdbcType=INTEGER},
+      </if>
+      <if test="saleAddr != null">
+        sale_addr = #{saleAddr,jdbcType=CHAR},
+      </if>
+    </set>
+    where sale_id = #{saleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.entity.SaleInfo">
+    update sale_info
+    set sale_name = #{saleName,jdbcType=CHAR},
+      sale_password = #{salePassword,jdbcType=CHAR},
+      sale_phone = #{salePhone,jdbcType=INTEGER},
+      sale_addr = #{saleAddr,jdbcType=CHAR}
+    where sale_id = #{saleId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCondition" parameterType="com.springboot.entity.SaleInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    sale_info
+    <where>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="saleName != null">
+        and sale_name = #{saleName,jdbcType=CHAR}
+      </if>
+      <if test="salePassword != null">
+        and sale_password = #{salePassword,jdbcType=CHAR}
+      </if>
+      <if test="salePhone != null">
+        and sale_phone = #{salePhone,jdbcType=INTEGER}
+      </if>
+      <if test="saleAddr != null">
+        and sale_addr = #{saleAddr,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select sale_id, sale_name, sale_password, sale_phone, sale_addr
+    from sale_info
+  </select>
+  <select id="selectByPage" parameterType="com.code.vo.Page" resultMap="BaseResultMap">
+    select sale_id, sale_name, sale_password, sale_phone, sale_addr
+    from sale_info
+    <if test="obj != null">
+      <where>
+        <if test="obj.saleName != null">
+          and sale_name = #{obj.saleName,jdbcType=CHAR}
+        </if>
+        <if test="obj.salePassword != null">
+          and sale_password = #{obj.salePassword,jdbcType=CHAR}
+        </if>
+        <if test="obj.salePhone != null">
+          and sale_phone = #{obj.salePhone,jdbcType=INTEGER}
+        </if>
+        <if test="obj.saleAddr != null">
+          and sale_addr = #{obj.saleAddr,jdbcType=CHAR}
+        </if>
+      </where>
+    </if>
+    limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="count" parameterType="com.springboot.entity.SaleInfo" resultType="java.lang.Integer">
+    select count(1) from sale_info
+    <where>
+      <if test="saleName != null">
+        and sale_name = #{saleName,jdbcType=CHAR}
+      </if>
+      <if test="salePassword != null">
+        and sale_password = #{salePassword,jdbcType=CHAR}
+      </if>
+      <if test="salePhone != null">
+        and sale_phone = #{salePhone,jdbcType=INTEGER}
+      </if>
+      <if test="saleAddr != null">
+        and sale_addr = #{saleAddr,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByCondition" parameterType="com.springboot.entity.SaleInfo">
+    delete from sale_info
+    <where>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="saleName != null">
+        and sale_name = #{saleName,jdbcType=CHAR}
+      </if>
+      <if test="salePassword != null">
+        and sale_password = #{salePassword,jdbcType=CHAR}
+      </if>
+      <if test="salePhone != null">
+        and sale_phone = #{salePhone,jdbcType=INTEGER}
+      </if>
+      <if test="saleAddr != null">
+        and sale_addr = #{saleAddr,jdbcType=CHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

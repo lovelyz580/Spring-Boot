@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.dao.ProInfoMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.entity.ProInfo">
+    <id column="prod_id" jdbcType="INTEGER" property="prodId" />
+    <result column="sale_id" jdbcType="INTEGER" property="saleId" />
+    <result column="prod_name" jdbcType="CHAR" property="prodName" />
+    <result column="prod_price" jdbcType="DECIMAL" property="prodPrice" />
+    <result column="prod_note" jdbcType="CHAR" property="prodNote" />
+    <result column="jielongname" jdbcType="CHAR" property="jielongname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    prod_id, sale_id, prod_name, prod_price, prod_note, jielongname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pro_info
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pro_info
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.entity.ProInfo">
+    insert into pro_info (prod_id, sale_id, prod_name, 
+      prod_price, prod_note, jielongname
+      )
+    values (#{prodId,jdbcType=INTEGER}, #{saleId,jdbcType=INTEGER}, #{prodName,jdbcType=CHAR}, 
+      #{prodPrice,jdbcType=DECIMAL}, #{prodNote,jdbcType=CHAR}, #{jielongname,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.entity.ProInfo">
+    insert into pro_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="prodId != null">
+        prod_id,
+      </if>
+      <if test="saleId != null">
+        sale_id,
+      </if>
+      <if test="prodName != null">
+        prod_name,
+      </if>
+      <if test="prodPrice != null">
+        prod_price,
+      </if>
+      <if test="prodNote != null">
+        prod_note,
+      </if>
+      <if test="jielongname != null">
+        jielongname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="prodId != null">
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="saleId != null">
+        #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="prodName != null">
+        #{prodName,jdbcType=CHAR},
+      </if>
+      <if test="prodPrice != null">
+        #{prodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prodNote != null">
+        #{prodNote,jdbcType=CHAR},
+      </if>
+      <if test="jielongname != null">
+        #{jielongname,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.entity.ProInfo">
+    update pro_info
+    <set>
+      <if test="saleId != null">
+        sale_id = #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="prodName != null">
+        prod_name = #{prodName,jdbcType=CHAR},
+      </if>
+      <if test="prodPrice != null">
+        prod_price = #{prodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prodNote != null">
+        prod_note = #{prodNote,jdbcType=CHAR},
+      </if>
+      <if test="jielongname != null">
+        jielongname = #{jielongname,jdbcType=CHAR},
+      </if>
+    </set>
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.entity.ProInfo">
+    update pro_info
+    set sale_id = #{saleId,jdbcType=INTEGER},
+      prod_name = #{prodName,jdbcType=CHAR},
+      prod_price = #{prodPrice,jdbcType=DECIMAL},
+      prod_note = #{prodNote,jdbcType=CHAR},
+      jielongname = #{jielongname,jdbcType=CHAR}
+    where prod_id = #{prodId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCondition" parameterType="com.springboot.entity.ProInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    pro_info
+    <where>
+      <if test="prodId != null">
+        and prod_id = #{prodId,jdbcType=INTEGER}
+      </if>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="prodName != null">
+        and prod_name = #{prodName,jdbcType=CHAR}
+      </if>
+      <if test="prodPrice != null">
+        and prod_price = #{prodPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="prodNote != null">
+        and prod_note = #{prodNote,jdbcType=CHAR}
+      </if>
+      <if test="jielongname != null">
+        and jielongname = #{jielongname,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select prod_id, sale_id, prod_name, prod_price, prod_note, jielongname
+    from pro_info
+  </select>
+  <select id="selectByPage" parameterType="com.code.vo.Page" resultMap="BaseResultMap">
+    select prod_id, sale_id, prod_name, prod_price, prod_note, jielongname
+    from pro_info
+    <if test="obj != null">
+      <where>
+        <if test="obj.saleId != null">
+          and sale_id = #{obj.saleId,jdbcType=INTEGER}
+        </if>
+        <if test="obj.prodName != null">
+          and prod_name = #{obj.prodName,jdbcType=CHAR}
+        </if>
+        <if test="obj.prodPrice != null">
+          and prod_price = #{obj.prodPrice,jdbcType=DECIMAL}
+        </if>
+        <if test="obj.prodNote != null">
+          and prod_note = #{obj.prodNote,jdbcType=CHAR}
+        </if>
+        <if test="obj.jielongname != null">
+          and jielongname = #{obj.jielongname,jdbcType=CHAR}
+        </if>
+      </where>
+    </if>
+    limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="count" parameterType="com.springboot.entity.ProInfo" resultType="java.lang.Integer">
+    select count(1) from pro_info
+    <where>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="prodName != null">
+        and prod_name = #{prodName,jdbcType=CHAR}
+      </if>
+      <if test="prodPrice != null">
+        and prod_price = #{prodPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="prodNote != null">
+        and prod_note = #{prodNote,jdbcType=CHAR}
+      </if>
+      <if test="jielongname != null">
+        and jielongname = #{jielongname,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByCondition" parameterType="com.springboot.entity.ProInfo">
+    delete from pro_info
+    <where>
+      <if test="prodId != null">
+        and prod_id = #{prodId,jdbcType=INTEGER}
+      </if>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="prodName != null">
+        and prod_name = #{prodName,jdbcType=CHAR}
+      </if>
+      <if test="prodPrice != null">
+        and prod_price = #{prodPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="prodNote != null">
+        and prod_note = #{prodNote,jdbcType=CHAR}
+      </if>
+      <if test="jielongname != null">
+        and jielongname = #{jielongname,jdbcType=CHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>

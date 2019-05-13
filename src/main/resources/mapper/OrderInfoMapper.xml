@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.dao.OrderInfoMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.entity.OrderInfo">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="sale_id" jdbcType="INTEGER" property="saleId" />
+    <result column="buyer_id" jdbcType="INTEGER" property="buyerId" />
+    <result column="order_note" jdbcType="CHAR" property="orderNote" />
+    <result column="order_stime" jdbcType="TIMESTAMP" property="orderStime" />
+    <result column="order_etime" jdbcType="TIMESTAMP" property="orderEtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, sale_id, buyer_id, order_note, order_stime, order_etime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_info
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_info
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.entity.OrderInfo">
+    insert into order_info (order_id, sale_id, buyer_id, 
+      order_note, order_stime, order_etime
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{saleId,jdbcType=INTEGER}, #{buyerId,jdbcType=INTEGER}, 
+      #{orderNote,jdbcType=CHAR}, #{orderStime,jdbcType=TIMESTAMP}, #{orderEtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.entity.OrderInfo">
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="saleId != null">
+        sale_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="orderNote != null">
+        order_note,
+      </if>
+      <if test="orderStime != null">
+        order_stime,
+      </if>
+      <if test="orderEtime != null">
+        order_etime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="saleId != null">
+        #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNote != null">
+        #{orderNote,jdbcType=CHAR},
+      </if>
+      <if test="orderStime != null">
+        #{orderStime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderEtime != null">
+        #{orderEtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.entity.OrderInfo">
+    update order_info
+    <set>
+      <if test="saleId != null">
+        sale_id = #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNote != null">
+        order_note = #{orderNote,jdbcType=CHAR},
+      </if>
+      <if test="orderStime != null">
+        order_stime = #{orderStime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderEtime != null">
+        order_etime = #{orderEtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.entity.OrderInfo">
+    update order_info
+    set sale_id = #{saleId,jdbcType=INTEGER},
+      buyer_id = #{buyerId,jdbcType=INTEGER},
+      order_note = #{orderNote,jdbcType=CHAR},
+      order_stime = #{orderStime,jdbcType=TIMESTAMP},
+      order_etime = #{orderEtime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCondition" parameterType="com.springboot.entity.OrderInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    order_info
+    <where>
+      <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="buyerId != null">
+        and buyer_id = #{buyerId,jdbcType=INTEGER}
+      </if>
+      <if test="orderNote != null">
+        and order_note = #{orderNote,jdbcType=CHAR}
+      </if>
+      <if test="orderStime != null">
+        and order_stime = #{orderStime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderEtime != null">
+        and order_etime = #{orderEtime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select order_id, sale_id, buyer_id, order_note, order_stime, order_etime
+    from order_info
+  </select>
+  <select id="selectByPage" parameterType="com.code.vo.Page" resultMap="BaseResultMap">
+    select order_id, sale_id, buyer_id, order_note, order_stime, order_etime
+    from order_info
+    <if test="obj != null">
+      <where>
+        <if test="obj.saleId != null">
+          and sale_id = #{obj.saleId,jdbcType=INTEGER}
+        </if>
+        <if test="obj.buyerId != null">
+          and buyer_id = #{obj.buyerId,jdbcType=INTEGER}
+        </if>
+        <if test="obj.orderNote != null">
+          and order_note = #{obj.orderNote,jdbcType=CHAR}
+        </if>
+        <if test="obj.orderStime != null">
+          and order_stime = #{obj.orderStime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="obj.orderEtime != null">
+          and order_etime = #{obj.orderEtime,jdbcType=TIMESTAMP}
+        </if>
+      </where>
+    </if>
+    limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="count" parameterType="com.springboot.entity.OrderInfo" resultType="java.lang.Integer">
+    select count(1) from order_info
+    <where>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="buyerId != null">
+        and buyer_id = #{buyerId,jdbcType=INTEGER}
+      </if>
+      <if test="orderNote != null">
+        and order_note = #{orderNote,jdbcType=CHAR}
+      </if>
+      <if test="orderStime != null">
+        and order_stime = #{orderStime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderEtime != null">
+        and order_etime = #{orderEtime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByCondition" parameterType="com.springboot.entity.OrderInfo">
+    delete from order_info
+    <where>
+      <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="saleId != null">
+        and sale_id = #{saleId,jdbcType=INTEGER}
+      </if>
+      <if test="buyerId != null">
+        and buyer_id = #{buyerId,jdbcType=INTEGER}
+      </if>
+      <if test="orderNote != null">
+        and order_note = #{orderNote,jdbcType=CHAR}
+      </if>
+      <if test="orderStime != null">
+        and order_stime = #{orderStime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderEtime != null">
+        and order_etime = #{orderEtime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </delete>
+</mapper>

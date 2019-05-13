@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.dao.BuyerInfoMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.entity.BuyerInfo">
+    <id column="buyer_id" jdbcType="INTEGER" property="buyerId" />
+    <result column="buyer_name" jdbcType="CHAR" property="buyerName" />
+    <result column="buyer_password" jdbcType="VARCHAR" property="buyerPassword" />
+    <result column="buyer_phone" jdbcType="INTEGER" property="buyerPhone" />
+    <result column="buyer_addr" jdbcType="VARCHAR" property="buyerAddr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    buyer_id, buyer_name, buyer_password, buyer_phone, buyer_addr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from buyer_info
+    where buyer_id = #{buyerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from buyer_info
+    where buyer_id = #{buyerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.entity.BuyerInfo">
+    insert into buyer_info (buyer_id, buyer_name, buyer_password, 
+      buyer_phone, buyer_addr)
+    values (#{buyerId,jdbcType=INTEGER}, #{buyerName,jdbcType=CHAR}, #{buyerPassword,jdbcType=VARCHAR}, 
+      #{buyerPhone,jdbcType=INTEGER}, #{buyerAddr,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.entity.BuyerInfo">
+    insert into buyer_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="buyerName != null">
+        buyer_name,
+      </if>
+      <if test="buyerPassword != null">
+        buyer_password,
+      </if>
+      <if test="buyerPhone != null">
+        buyer_phone,
+      </if>
+      <if test="buyerAddr != null">
+        buyer_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerName != null">
+        #{buyerName,jdbcType=CHAR},
+      </if>
+      <if test="buyerPassword != null">
+        #{buyerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerPhone != null">
+        #{buyerPhone,jdbcType=INTEGER},
+      </if>
+      <if test="buyerAddr != null">
+        #{buyerAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.entity.BuyerInfo">
+    update buyer_info
+    <set>
+      <if test="buyerName != null">
+        buyer_name = #{buyerName,jdbcType=CHAR},
+      </if>
+      <if test="buyerPassword != null">
+        buyer_password = #{buyerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerPhone != null">
+        buyer_phone = #{buyerPhone,jdbcType=INTEGER},
+      </if>
+      <if test="buyerAddr != null">
+        buyer_addr = #{buyerAddr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where buyer_id = #{buyerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.entity.BuyerInfo">
+    update buyer_info
+    set buyer_name = #{buyerName,jdbcType=CHAR},
+      buyer_password = #{buyerPassword,jdbcType=VARCHAR},
+      buyer_phone = #{buyerPhone,jdbcType=INTEGER},
+      buyer_addr = #{buyerAddr,jdbcType=VARCHAR}
+    where buyer_id = #{buyerId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByCondition" parameterType="com.springboot.entity.BuyerInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    buyer_info
+    <where>
+      <if test="buyerId != null">
+        and buyer_id = #{buyerId,jdbcType=INTEGER}
+      </if>
+      <if test="buyerName != null">
+        and buyer_name = #{buyerName,jdbcType=CHAR}
+      </if>
+      <if test="buyerPassword != null">
+        and buyer_password = #{buyerPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerPhone != null">
+        and buyer_phone = #{buyerPhone,jdbcType=INTEGER}
+      </if>
+      <if test="buyerAddr != null">
+        and buyer_addr = #{buyerAddr,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select buyer_id, buyer_name, buyer_password, buyer_phone, buyer_addr
+    from buyer_info
+  </select>
+  <select id="selectByPage" parameterType="com.code.vo.Page" resultMap="BaseResultMap">
+    select buyer_id, buyer_name, buyer_password, buyer_phone, buyer_addr
+    from buyer_info
+    <if test="obj != null">
+      <where>
+        <if test="obj.buyerName != null">
+          and buyer_name = #{obj.buyerName,jdbcType=CHAR}
+        </if>
+        <if test="obj.buyerPassword != null">
+          and buyer_password = #{obj.buyerPassword,jdbcType=VARCHAR}
+        </if>
+        <if test="obj.buyerPhone != null">
+          and buyer_phone = #{obj.buyerPhone,jdbcType=INTEGER}
+        </if>
+        <if test="obj.buyerAddr != null">
+          and buyer_addr = #{obj.buyerAddr,jdbcType=VARCHAR}
+        </if>
+      </where>
+    </if>
+    limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="count" parameterType="com.springboot.entity.BuyerInfo" resultType="java.lang.Integer">
+    select count(1) from buyer_info
+    <where>
+      <if test="buyerName != null">
+        and buyer_name = #{buyerName,jdbcType=CHAR}
+      </if>
+      <if test="buyerPassword != null">
+        and buyer_password = #{buyerPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerPhone != null">
+        and buyer_phone = #{buyerPhone,jdbcType=INTEGER}
+      </if>
+      <if test="buyerAddr != null">
+        and buyer_addr = #{buyerAddr,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByCondition" parameterType="com.springboot.entity.BuyerInfo">
+    delete from buyer_info
+    <where>
+      <if test="buyerId != null">
+        and buyer_id = #{buyerId,jdbcType=INTEGER}
+      </if>
+      <if test="buyerName != null">
+        and buyer_name = #{buyerName,jdbcType=CHAR}
+      </if>
+      <if test="buyerPassword != null">
+        and buyer_password = #{buyerPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="buyerPhone != null">
+        and buyer_phone = #{buyerPhone,jdbcType=INTEGER}
+      </if>
+      <if test="buyerAddr != null">
+        and buyer_addr = #{buyerAddr,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+</mapper>
